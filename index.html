@@ -93,6 +93,11 @@
   .modal-actions { position:sticky; bottom:0; background:#fff; border-top:1px solid #ddd; padding:14px 20px; display:flex; gap:12px; }
   .btn-print { flex:1; background:#111; color:#fff; border:none; padding:14px; font-family:'Noto Sans JP',sans-serif; font-size:14px; cursor:pointer; border-radius:8px; }
   .btn-close2 { background:transparent; color:#111; border:1px solid #ddd; padding:14px 20px; font-family:'Noto Sans JP',sans-serif; font-size:14px; cursor:pointer; border-radius:8px; }
+  .doc-total-simple { border:1px solid #ddd; border-radius:8px; padding:20px 24px; margin-bottom:20px; }
+  .total-simple-row { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #f0f0f0; font-size:14px; color:#444; }
+  .total-simple-row:last-of-type { border-bottom:none; }
+  .total-simple-main { padding-top:14px; margin-top:6px; border-top:2px solid #111 !important; border-bottom:none !important; font-size:18px; font-weight:700; color:#111; }
+  .total-simple-main span:last-child { font-size:22px; }
   @media print { .modal-actions,.header,.main,.bottom-bar { display:none; } .modal-overlay { position:absolute; background:#fff; } }
   @media (min-width:768px) {
     body { font-size:17px; }
@@ -290,20 +295,33 @@ function generateEstimate(){
   const rows=[...selected].map((item,i)=>`<tr><td style="color:#bbb;font-family:monospace;font-size:11px;width:36px">${String(i+1).padStart(2,'0')}</td><td>${item}</td></tr>`).join('');
   document.getElementById('doc-content').innerHTML=`
     <div class="doc-header">
-      <div class="doc-title">御見積書</div>
-      <div class="doc-title-sub">ESTIMATE — PERSONAL GEAR PACKAGE</div>
-      <div class="doc-meta-row"><span>見積番号: <strong>${estNo}</strong></span><span>発行日: <strong>${today}</strong></span></div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;">
+        <div>
+          <div class="doc-title">御見積書</div>
+          <div class="doc-title-sub">ESTIMATE — PERSONAL GEAR PACKAGE</div>
+          <div class="doc-meta-row" style="margin-top:10px;"><span>見積番号: <strong>${estNo}</strong></span><span>発行日: <strong>${today}</strong></span></div>
+        </div>
+        <div style="text-align:right;font-size:13px;line-height:2;color:#444;">
+          <div style="font-size:16px;font-weight:700;color:#111;margin-bottom:4px;">今岡利明</div>
+          <div>〒165-0026</div>
+          <div>東京都中野区新井1-36-9</div>
+          <div>岡田ビル302</div>
+          <div style="margin-top:6px;">TEL: 090-5526-8190</div>
+          <div>mail@t-imok.com</div>
+          <div>登録番号: T9810440218359</div>
+        </div>
+      </div>
     </div>
     <div style="display:flex;gap:24px;margin-bottom:20px;flex-wrap:wrap">
       <div><div class="doc-section-label">お客様 / 案件名</div><div class="doc-section-value">${client}</div></div>
       <div><div class="doc-section-label">撮影日</div><div class="doc-section-value">${shootDate}</div></div>
     </div>
     <table class="doc-table"><thead><tr><th>#</th><th>機材名称</th></tr></thead><tbody>${rows}</tbody></table>
-    <div class="doc-total-box">
-      <div class="total-row"><span>機材パッケージ料金（税別）</span><span class="total-val">${fmtP(price)}</span></div>
-      <div class="total-row"><span>消費税（10%）</span><span class="total-val">${fmtP(tax)}</span></div>
-      <div class="total-row main"><span>合計（税込）</span><span class="total-val main">${fmtP(total)}</span></div>
-      <div style="font-size:11px;color:#666;margin-top:8px">使用機材 計 ${selected.size} 点</div>
+    <div class="doc-total-simple">
+      <div class="total-simple-row"><span>機材パッケージ料金（税別）</span><span>${fmtP(price)}</span></div>
+      <div class="total-simple-row"><span>消費税（10%）</span><span>${fmtP(tax)}</span></div>
+      <div class="total-simple-row total-simple-main"><span>合計（税込）</span><span>${fmtP(total)}</span></div>
+      <div style="font-size:11px;color:#aaa;margin-top:8px;text-align:right;">使用機材 計 ${selected.size} 点</div>
     </div>
     <div class="doc-note">上記機材は今岡の私物機材であり、撮影のために持参した機材一式です。<br>個別機材の単価請求ではなく、パッケージ料金としてご請求いたします。<br>機材の損耗・メンテナンス費用を含む使用料として計上しております。</div>
     <div class="doc-footer">IMOK Personal Gear Package — 今岡個人機材見積書<br>本見積書の有効期限は発行日より30日間とします</div>
