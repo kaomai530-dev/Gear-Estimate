@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" style="-webkit-print-color-adjust:exact;print-color-adjust:exact;color-adjust:exact;">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -158,6 +158,9 @@
       background: #fff !important;
       margin: 0 !important;
       padding: 0 !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
     }
     body > .header,
     body > .main,
@@ -208,6 +211,35 @@
       margin: 0 !important;
       box-shadow: none !important;
       border-radius: 0 !important;
+    }
+
+    /* Force black backgrounds on table headers */
+    .p1-table thead tr,
+    .p2-table thead tr {
+      background: #111 !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    .p1-table thead tr th,
+    .p2-table thead tr th {
+      background: #111 !important;
+      color: #fff !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    .p2-cat {
+      background: #f4f4f4 !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    /* Ensure info labels are visible */
+    .p1-info-label {
+      font-size: 11px !important;
+      color: #aaa !important;
+      display: block !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
     }
 
     /* Compact page2 for fitting all gear */
