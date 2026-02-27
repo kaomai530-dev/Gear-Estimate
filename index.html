@@ -77,68 +77,86 @@
   .btn-generate:disabled { background:var(--border); color:var(--muted); }
 
   /* MODAL — A4プレビュー表示 */
-  .modal-overlay { position:fixed; inset:0; background:#888; z-index:300; display:none; flex-direction:column; overflow-y:auto; }
+  .modal-overlay { position:fixed; inset:0; background:#707070; z-index:300; display:none; flex-direction:column; overflow-y:auto; }
   .modal-overlay.open { display:flex; }
-  .modal { background:transparent; color:#111; width:100%; min-height:100%; font-family:'Noto Sans JP',sans-serif; }
-  .modal-actions { position:sticky; bottom:0; background:#fff; border-top:1px solid #ddd; padding:14px 20px; display:flex; gap:12px; z-index:10; }
-  .btn-print { flex:1; background:#111; color:#fff; border:none; padding:14px; font-family:'Noto Sans JP',sans-serif; font-size:14px; cursor:pointer; border-radius:8px; }
-  .btn-close2 { background:transparent; color:#111; border:1px solid #ddd; padding:14px 20px; font-family:'Noto Sans JP',sans-serif; font-size:14px; cursor:pointer; border-radius:8px; }
+  .modal { background:transparent; color:#111; width:100%; font-family:'Noto Sans JP',sans-serif; }
+  .modal-actions { position:sticky; bottom:0; background:#3a3a3a; border-top:1px solid #555; padding:12px 20px; display:flex; gap:12px; z-index:10; }
+  .btn-print { flex:1; background:var(--accent); color:#000; border:none; padding:14px; font-family:'Noto Sans JP',sans-serif; font-size:14px; font-weight:700; cursor:pointer; border-radius:8px; letter-spacing:1px; }
+  .btn-close2 { background:transparent; color:#ccc; border:1px solid #555; padding:14px 20px; font-family:'Noto Sans JP',sans-serif; font-size:14px; cursor:pointer; border-radius:8px; }
+
+  /* PDF保存案内トースト */
+  .pdf-toast { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:#111; color:#fff; padding:28px 36px; border-radius:12px; z-index:500; text-align:center; box-shadow:0 8px 40px rgba(0,0,0,0.5); max-width:340px; width:90%; }
+  .pdf-toast.show { display:block; }
+  .pdf-toast-title { font-size:16px; font-weight:700; margin-bottom:12px; color:var(--accent); }
+  .pdf-toast-body { font-size:13px; line-height:1.8; color:#ccc; margin-bottom:20px; }
+  .pdf-toast-step { background:#222; border-radius:8px; padding:12px 16px; margin-bottom:10px; font-size:12px; text-align:left; }
+  .pdf-toast-step strong { color:#fff; }
+  .pdf-toast-btn { background:var(--accent); color:#000; border:none; padding:12px 32px; font-size:14px; font-weight:700; cursor:pointer; border-radius:8px; width:100%; }
 
   /* ===== 2-PAGE DOC STYLES ===== */
-  .doc-pages { padding: 32px 16px; display:flex; flex-direction:column; gap:16px; align-items:center; }
+  .doc-pages { padding: 24px 12px 24px; display:flex; flex-direction:column; gap:16px; align-items:center; }
 
-  /* A4比率でプレビュー表示 */
+  /* A4比率固定プレビュー */
   .page {
     background: #fff;
     font-family: 'Noto Sans JP', sans-serif;
     color: #111;
-    width: 100%;
-    max-width: 640px;
-    aspect-ratio: 210 / 297;
-    padding: 6% 7%;
+    /* A4: 210mm x 297mm → 幅に対して高さ141.4% */
+    width: min(92vw, 560px);
+    height: calc(min(92vw, 560px) * 1.414);
+    padding: 0;
     margin: 0 auto;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+    box-shadow: 0 4px 32px rgba(0,0,0,0.35);
     border-radius: 1px;
     overflow: hidden;
     position: relative;
-    display: flex;
-    flex-direction: column;
+    flex-shrink: 0;
   }
-  .page1 { justify-content: space-between; }
+  /* 内部コンテンツをscaleで合わせる */
+  .page-inner {
+    position: absolute;
+    top: 0; left: 0;
+    width: 794px; /* 210mm @ 96dpi */
+    height: 1123px; /* 297mm @ 96dpi */
+    transform-origin: top left;
+    padding: 72px 68px 60px;
+    box-sizing: border-box;
+  }
+  .page1 .page-inner { display:flex; flex-direction:column; justify-content:space-between; }
 
   /* Header */
-  .p1-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1em; }
-  .p1-logo { font-family:'Bebas Neue',sans-serif; font-size:clamp(20px,4vw,32px); letter-spacing:4px; color:#111; line-height:1; }
-  .p1-logo-sub { font-size:clamp(9px,1.2vw,12px); color:#888; margin-top:4px; letter-spacing:1px; }
+  .p1-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; }
+  .p1-logo { font-family:'Bebas Neue',sans-serif; font-size:32px; letter-spacing:4px; color:#111; line-height:1; }
+  .p1-logo-sub { font-size:11px; color:#888; margin-top:4px; letter-spacing:1px; }
   .p1-right { text-align:right; }
-  .p1-title { font-family:'Noto Sans JP',sans-serif; font-size:clamp(14px,2.8vw,26px); font-weight:700; letter-spacing:4px; color:#111; line-height:1; }
-  .p1-meta { font-size:clamp(9px,1.2vw,13px); color:#888; margin-top:4px; letter-spacing:1px; font-family:'IBM Plex Mono',monospace; }
+  .p1-title { font-family:'Noto Sans JP',sans-serif; font-size:26px; font-weight:700; letter-spacing:6px; color:#111; line-height:1; }
+  .p1-meta { font-size:12px; color:#888; margin-top:5px; letter-spacing:1px; font-family:'IBM Plex Mono',monospace; }
 
-  .p1-rule { border:none; border-top:2px solid #111; margin:0 0 1.2em 0; }
+  .p1-rule { border:none; border-top:2px solid #111; margin:0 0 24px 0; }
 
   /* Info grid */
-  .p1-info-grid { display:grid; grid-template-columns:1fr 1fr; gap:1em 2em; margin-bottom:1.5em; }
-  .p1-info-label { font-size:clamp(9px,1.1vw,11px); color:#aaa; letter-spacing:1px; margin-bottom:4px; }
-  .p1-info-value { font-size:clamp(12px,1.8vw,16px); color:#111; border-bottom:1.5px solid #111; padding-bottom:5px; min-height:24px; }
-  .p1-info-sub { font-size:clamp(9px,1.1vw,11px); color:#666; margin-top:3px; line-height:1.6; }
+  .p1-info-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px 44px; margin-bottom:28px; }
+  .p1-info-label { font-size:10px; color:#aaa; letter-spacing:1px; margin-bottom:5px; }
+  .p1-info-value { font-size:15px; color:#111; border-bottom:1.5px solid #111; padding-bottom:5px; min-height:24px; }
+  .p1-info-sub { font-size:10px; color:#666; margin-top:3px; line-height:1.7; }
 
   /* Main table */
-  .p1-table { width:100%; border-collapse:collapse; margin-bottom:1.5em; }
+  .p1-table { width:100%; border-collapse:collapse; margin-bottom:28px; }
   .p1-table thead tr { background:#111; color:#fff; }
-  .p1-th-item { padding:8px 12px; font-size:clamp(10px,1.3vw,13px); font-weight:700; text-align:left; width:25%; }
-  .p1-th-detail { padding:8px 12px; font-size:clamp(10px,1.3vw,13px); font-weight:700; text-align:left; }
-  .p1-th-price { padding:8px 12px; font-size:clamp(10px,1.3vw,13px); font-weight:700; text-align:right; width:15%; }
-  .p1-td-item { padding:12px 12px; font-size:clamp(11px,1.5vw,15px); font-weight:700; border-bottom:1px solid #e8e8e8; vertical-align:top; }
-  .p1-td-detail { padding:12px 12px; font-size:clamp(10px,1.3vw,13px); color:#555; border-bottom:1px solid #e8e8e8; vertical-align:top; line-height:1.7; }
-  .p1-td-price { padding:12px 12px; font-size:clamp(11px,1.5vw,15px); font-weight:500; text-align:right; border-bottom:1px solid #e8e8e8; vertical-align:top; letter-spacing:1px; }
+  .p1-th-item { padding:10px 14px; font-size:12px; font-weight:700; text-align:left; width:25%; }
+  .p1-th-detail { padding:10px 14px; font-size:12px; font-weight:700; text-align:left; }
+  .p1-th-price { padding:10px 14px; font-size:12px; font-weight:700; text-align:right; width:15%; }
+  .p1-td-item { padding:16px 14px; font-size:14px; font-weight:700; border-bottom:1px solid #e8e8e8; vertical-align:top; }
+  .p1-td-detail { padding:16px 14px; font-size:12px; color:#555; border-bottom:1px solid #e8e8e8; vertical-align:top; line-height:1.8; }
+  .p1-td-price { padding:16px 14px; font-size:14px; font-weight:500; text-align:right; border-bottom:1px solid #e8e8e8; vertical-align:top; letter-spacing:1px; }
 
   /* Total box */
   .p1-total-wrap { display:flex; justify-content:flex-end; }
-  .p1-total-box { border:1.5px solid #111; border-radius:4px; padding:16px 24px; width:min(300px, 55%); }
-  .p1-total-row { display:flex; justify-content:space-between; font-size:clamp(10px,1.3vw,13px); color:#555; margin-bottom:8px; }
+  .p1-total-box { border:1.5px solid #111; border-radius:4px; padding:18px 24px; width:280px; }
+  .p1-total-row { display:flex; justify-content:space-between; font-size:12px; color:#555; margin-bottom:9px; }
   .p1-total-rule { border:none; border-top:1px solid #ccc; margin:10px 0; }
-  .p1-total-main { font-size:clamp(12px,1.6vw,17px); font-weight:700; color:#111; margin-bottom:0; }
-  .p1-total-main span:last-child { font-size:clamp(14px,2vw,20px); }
+  .p1-total-main { font-size:16px; font-weight:700; color:#111; margin-bottom:0; }
+  .p1-total-main span:last-child { font-size:19px; }
 
   /* Page 2 */
   .p2-info-row { display:flex; gap:32px; margin-bottom:12px; font-size:13px; color:#666; }
@@ -355,8 +373,8 @@
     .field-label { font-size:12px; }
     .field-input { font-size:17px; padding:14px 16px; }
     .btn-generate { font-size:22px; padding:20px; }
-    .doc-pages { padding: 40px; gap: 24px; max-width: 780px; margin: 0 auto; }
-    .page { max-width: 700px; }
+    .doc-pages { padding: 40px 40px 40px; gap: 24px; max-width: 800px; margin: 0 auto; }
+    .page { width: min(86vw, 680px); height: calc(min(86vw, 680px) * 1.414); }
   }
 </style>
 </head>
@@ -432,6 +450,13 @@
       <button class="btn-close2" onclick="closeModal()">閉じる</button>
     </div>
   </div>
+</div>
+
+<div class="pdf-toast" id="pdf-toast">
+  <div class="pdf-toast-title">📄 PDFとして保存する方法</div>
+  <div class="pdf-toast-step"><strong>① 次の画面で「送信先」を選択</strong><br>「PDFに保存」または「名前を付けて保存...」を選んでください</div>
+  <div class="pdf-toast-step"><strong>② 保存ボタンをクリック</strong><br>ファイル名は見積番号_案件名で自動設定されます</div>
+  <button class="pdf-toast-btn" onclick="startPrint()">OK、印刷ダイアログを開く</button>
 </div>
 
 <script>
@@ -565,101 +590,123 @@ function generateEstimate(){
   document.getElementById('doc-content').innerHTML=`
     <!-- PAGE 1: 見積書 -->
     <div class="page page1">
-      <div class="p1-header">
-        <div class="p1-left">
-          <div class="p1-logo">IMOK</div>
-          <div class="p1-logo-sub">今岡 個人機材パッケージ</div>
+      <div class="page-inner">
+        <div class="p1-header">
+          <div class="p1-left">
+            <div class="p1-logo">IMOK</div>
+            <div class="p1-logo-sub">今岡 個人機材パッケージ</div>
+          </div>
+          <div class="p1-right">
+            <div class="p1-title">撮影機材費 見積書</div>
+            <div class="p1-meta">No. ${estNo}&nbsp;&nbsp;|&nbsp;&nbsp;${todayFmt}</div>
+          </div>
         </div>
-        <div class="p1-right">
-          <div class="p1-title">撮影機材費 見積書</div>
-          <div class="p1-meta">No. ${estNo}&nbsp;&nbsp;|&nbsp;&nbsp;${todayFmt}</div>
+        <div class="p1-rule"></div>
+        <div class="p1-info-grid">
+          <div>
+            <div class="p1-info-label">宛先</div>
+            <div class="p1-info-value">${client !== "—" ? client + " 御中" : "—"}</div>
+          </div>
+          <div>
+            <div class="p1-info-label">案件名</div>
+            <div class="p1-info-value">${project}</div>
+          </div>
+          <div>
+            <div class="p1-info-label">撮影日</div>
+            <div class="p1-info-value">${shootDate}</div>
+          </div>
+          <div>
+            <div class="p1-info-label">機材所有者</div>
+            <div class="p1-info-value">今岡利明</div>
+            <div class="p1-info-sub">〒165-0026 東京都中野区新井1-36-9 岡田ビル302</div>
+            <div class="p1-info-sub">TEL: 090-5526-8190</div>
+            <div class="p1-info-sub">mail@t-imok.com</div>
+            <div class="p1-info-sub">登録番号: T9810440218359</div>
+          </div>
         </div>
-      </div>
-      <div class="p1-rule"></div>
-      <div class="p1-info-grid">
-        <div>
-          <div class="p1-info-label">宛先</div>
-          <div class="p1-info-value">${client !== "—" ? client + " 御中" : "—"}</div>
-        </div>
-        <div>
-          <div class="p1-info-label">案件名</div>
-          <div class="p1-info-value">${project}</div>
-        </div>
-        <div>
-          <div class="p1-info-label">撮影日</div>
-          <div class="p1-info-value">${shootDate}</div>
-        </div>
-        <div>
-          <div class="p1-info-label">機材所有者</div>
-          <div class="p1-info-value">今岡利明</div>
-          <div class="p1-info-sub">〒165-0026 東京都中野区新井1-36-9 岡田ビル302</div>
-          <div class="p1-info-sub">TEL: 090-5526-8190</div>
-          <div class="p1-info-sub">mail@t-imok.com</div>
-          <div class="p1-info-sub">登録番号: T9810440218359</div>
-        </div>
-      </div>
-      <table class="p1-table">
-        <thead>
-          <tr>
-            <th class="p1-th-item">品目</th>
-            <th class="p1-th-detail">詳細</th>
-            <th class="p1-th-price">金額</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="p1-td-item">撮影機材費</td>
-            <td class="p1-td-detail">私物機材一式（${selected.size}点）<br><span style="font-size:11px;color:#888">※詳細は別紙 機材一覧を参照</span></td>
-            <td class="p1-td-price">${fmtP(price)}</td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="p1-total-wrap">
-        <div class="p1-total-box">
-          <div class="p1-total-row"><span>小計</span><span>${fmtP(price)}</span></div>
-          <div class="p1-total-row"><span>消費税（10%）</span><span>${fmtP(tax)}</span></div>
-          <div class="p1-total-rule"></div>
-          <div class="p1-total-row p1-total-main"><span>合計</span><span>${fmtP(total)}</span></div>
+        <table class="p1-table">
+          <thead>
+            <tr>
+              <th class="p1-th-item">品目</th>
+              <th class="p1-th-detail">詳細</th>
+              <th class="p1-th-price">金額</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="p1-td-item">撮影機材費</td>
+              <td class="p1-td-detail">私物機材一式（${selected.size}点）<br><span style="font-size:11px;color:#888">※詳細は別紙 機材一覧を参照</span></td>
+              <td class="p1-td-price">${fmtP(price)}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="p1-total-wrap">
+          <div class="p1-total-box">
+            <div class="p1-total-row"><span>小計</span><span>${fmtP(price)}</span></div>
+            <div class="p1-total-row"><span>消費税（10%）</span><span>${fmtP(tax)}</span></div>
+            <div class="p1-total-rule"></div>
+            <div class="p1-total-row p1-total-main"><span>合計</span><span>${fmtP(total)}</span></div>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- PAGE 2: 機材一覧 -->
     <div class="page page2">
-      <div class="p1-header">
-        <div class="p1-left">
-          <div class="p1-logo">IMOK</div>
-          <div class="p1-logo-sub">今岡 個人機材パッケージ</div>
+      <div class="page-inner">
+        <div class="p1-header">
+          <div class="p1-left">
+            <div class="p1-logo">IMOK</div>
+            <div class="p1-logo-sub">今岡 個人機材パッケージ</div>
+          </div>
+          <div class="p1-right">
+            <div class="p1-title" style="letter-spacing:8px;">機 材 一 覧</div>
+            <div class="p1-meta">No. ${estNo}&nbsp;&nbsp;|&nbsp;&nbsp;${todayFmt}</div>
+          </div>
         </div>
-        <div class="p1-right">
-          <div class="p1-title" style="letter-spacing:8px;">機 材 一 覧</div>
-          <div class="p1-meta">No. ${estNo}&nbsp;&nbsp;|&nbsp;&nbsp;${todayFmt}</div>
+        <div class="p1-rule"></div>
+        <div class="p2-info-row">
+          <span>持参機材数: <strong>${selected.size} 点</strong></span>
+          <span>機材所有者: <strong>今岡利明</strong></span>
         </div>
+        <div class="p2-columns">
+          <div class="p2-col"><div class="p2-col-header-bar"><span class="p2-col-num-h">#</span><span>機 材 名 称</span></div>${col1}</div>
+          <div class="p2-col"><div class="p2-col-header-bar"><span class="p2-col-num-h">#</span><span>機 材 名 称</span></div>${col2}</div>
+          <div class="p2-col"><div class="p2-col-header-bar"><span class="p2-col-num-h">#</span><span>機 材 名 称</span></div>${col3}</div>
+        </div>
+        <div class="p2-footer">IMOK Personal Gear Package — 今岡個人機材見積書（別紙）</div>
       </div>
-      <div class="p1-rule"></div>
-      <div class="p2-info-row">
-        <span>持参機材数: <strong>${selected.size} 点</strong></span>
-        <span>機材所有者: <strong>今岡利明</strong></span>
-      </div>
-      <div class="p2-columns">
-        <div class="p2-col"><div class="p2-col-header-bar"><span class="p2-col-num-h">#</span><span>機 材 名 称</span></div>${col1}</div>
-        <div class="p2-col"><div class="p2-col-header-bar"><span class="p2-col-num-h">#</span><span>機 材 名 称</span></div>${col2}</div>
-        <div class="p2-col"><div class="p2-col-header-bar"><span class="p2-col-num-h">#</span><span>機 材 名 称</span></div>${col3}</div>
-      </div>
-      <div class="p2-footer">IMOK Personal Gear Package — 今岡個人機材見積書（別紙）</div>
     </div>
   `;
   window._lastEstNo = estNo;
+  // Scale page-inner to fit .page container
+  requestAnimationFrame(() => scalePages());
   document.getElementById('modal').classList.add('open');
   sheetOpen=false; document.getElementById('bottom-bar').classList.remove('expanded');
 }
+
+function scalePages() {
+  document.querySelectorAll('.page').forEach(page => {
+    const inner = page.querySelector('.page-inner');
+    if (!inner) return;
+    const scaleX = page.offsetWidth / 794;
+    const scaleY = page.offsetHeight / 1123;
+    const scale = Math.min(scaleX, scaleY);
+    inner.style.transform = `scale(${scale})`;
+  });
+}
+window.addEventListener('resize', scalePages);
 function closeModal(){document.getElementById('modal').classList.remove('open');}
 function printDoc(){
   const estNo = document.getElementById('estimate-no').value || window._lastEstNo || '';
   const project = document.getElementById('project-name').value || '';
   const parts = [estNo, project].filter(Boolean);
   document.title = parts.length ? parts.join('_') : '見積書';
-  setTimeout(() => window.print(), 300);
+  document.getElementById('pdf-toast').classList.add('show');
+}
+function startPrint(){
+  document.getElementById('pdf-toast').classList.remove('show');
+  setTimeout(() => window.print(), 200);
 }
 buildGearList();
 document.getElementById('shoot-date').value=new Date().toISOString().split('T')[0];
