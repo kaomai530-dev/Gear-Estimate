@@ -336,7 +336,24 @@
       background: #f4f4f4 !important;
       -webkit-print-color-adjust: exact !important;
       print-color-adjust: exact !important;
+      white-space: nowrap !important;
+      overflow: visible !important;
+      text-overflow: unset !important;
     }
+    /* 印刷時：機材名を省略なしで表示 */
+    .p2-item {
+      white-space: nowrap !important;
+      overflow: visible !important;
+      text-overflow: unset !important;
+      font-size: 9px !important;
+      padding: 3px 3px !important;
+    }
+    .p2-num { font-size: 9px !important; width: 16px !important; }
+    .p2-col { min-width: 0 !important; overflow: visible !important; }
+    .p2-row { overflow: visible !important; }
+    .p2-columns { gap: 0 6px !important; }
+    .p2-col-header-bar { font-size: 9px !important; padding: 4px 6px !important; }
+    .p2-cat-label { font-size: 8px !important; padding: 3px 4px !important; }
     .p1-info-label {
       color: #aaa !important;
       display: block !important;
@@ -452,14 +469,6 @@
       <button class="btn-close2" onclick="closeModal()">閉じる</button>
     </div>
   </div>
-</div>
-
-<div class="pdf-toast" id="pdf-toast">
-  <div class="pdf-toast-title">📄 PDFとして保存する方法</div>
-  <div class="pdf-toast-step"><strong>① 送信先を「PDFに保存」に変更</strong></div>
-  <div class="pdf-toast-step"><strong>② 「詳細設定」を開く</strong><br>・<strong>ヘッダーとフッター</strong> → オフ<br>（URLと日時が非表示になります）<br>・<strong>背景のグラフィック</strong> → オン</div>
-  <div class="pdf-toast-step"><strong>③ 「保存」をクリック</strong></div>
-  <button class="pdf-toast-btn" onclick="startPrint()">OK、印刷ダイアログを開く</button>
 </div>
 
 <script>
@@ -705,10 +714,6 @@ function printDoc(){
   const project = document.getElementById('project-name').value || '';
   const parts = [estNo, project].filter(Boolean);
   document.title = parts.length ? parts.join('_') : '見積書';
-  document.getElementById('pdf-toast').classList.add('show');
-}
-function startPrint(){
-  document.getElementById('pdf-toast').classList.remove('show');
   setTimeout(() => window.print(), 200);
 }
 buildGearList();
