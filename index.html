@@ -265,10 +265,9 @@
       gap: 0 !important;
     }
 
-    /* Page 1 — 高さ固定しない、overflowも切らない */
+    /* Page 1 — 高さはコンテンツに任せる */
     .page1 {
       width: 210mm !important;
-      min-height: 297mm !important;
       max-width: 210mm !important;
       aspect-ratio: unset !important;
       padding: 0 !important;
@@ -277,7 +276,6 @@
       margin: 0 !important;
       box-shadow: none !important;
       border-radius: 0 !important;
-      page-break-after: avoid !important;
       overflow: visible !important;
       display: block !important;
       position: relative !important;
@@ -286,13 +284,11 @@
     /* Page 2 */
     .page2 {
       width: 210mm !important;
-      min-height: 297mm !important;
       max-width: 210mm !important;
       aspect-ratio: unset !important;
       padding: 0 !important;
       box-sizing: border-box !important;
       page-break-before: always !important;
-      page-break-after: avoid !important;
       background: #fff !important;
       margin: 0 !important;
       box-shadow: none !important;
@@ -302,11 +298,11 @@
       position: relative !important;
     }
 
-    /* page-inner: reset scale, use full A4 size */
+    /* page-inner: reset scale, auto height */
     .page-inner {
       transform: none !important;
       width: 210mm !important;
-      min-height: 297mm !important;
+      height: auto !important;
       position: relative !important;
       top: auto !important; left: auto !important;
       padding: 18mm 18mm 14mm !important;
@@ -319,7 +315,6 @@
     /* URL・日時（ヘッダー・フッター）を非表示 */
     @page { margin: 0; size: A4; }
     html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    /* Chromeのrunning head対策 */
     body::before, body::after { display: none !important; }
     .page1::after, .page2::after { display: none !important; }
 
