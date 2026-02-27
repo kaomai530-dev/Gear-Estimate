@@ -91,12 +91,13 @@
     background: #fff;
     font-family: 'Noto Sans JP', sans-serif;
     color: #111;
-    padding: 48px 52px;
+    padding: 28px 20px;
     max-width: 800px;
     width: 100%;
     margin: 0 auto;
     box-shadow: 0 2px 16px rgba(0,0,0,0.10);
     border-radius: 2px;
+    overflow: hidden;
   }
 
   /* Header */
@@ -163,12 +164,12 @@
   .p2-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 6px 10px;
+    gap: 8px 10px;
     align-items: start;
   }
 
   /* Each category block */
-  .p2-cat-block { break-inside: avoid; }
+  .p2-cat-block { break-inside: avoid; margin-bottom: 0; min-width: 0; }
   .p2-cat-label {
     background: #f4f4f4;
     font-size: 10px;
@@ -180,10 +181,13 @@
     font-family: 'IBM Plex Mono', monospace;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
-  .p2-row { display:flex; border-bottom:1px solid #f0f0f0; align-items:center; }
+  .p2-row { display:flex; border-bottom:1px solid #f0f0f0; align-items:center; min-width:0; }
   .p2-num { width:24px; padding:5px 0 5px 6px; font-size:10px; color:#bbb; font-family:monospace; text-align:center; flex-shrink:0; }
-  .p2-item { padding:5px 6px; font-size:12px; flex:1; line-height:1.35; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .p2-item { padding:5px 6px; font-size:12px; flex:1; line-height:1.35; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; }
 
   .p2-footer { margin-top:12px; border-top:1px solid #ddd; padding-top:10px; font-size:11px; color:#aaa; text-align:center; }
 
@@ -230,7 +234,7 @@
       width: 210mm !important;
       height: 297mm !important;
       max-width: 210mm !important;
-      padding: 16mm 18mm !important;
+      padding: 22mm 18mm 16mm !important;
       box-sizing: border-box !important;
       background: #fff !important;
       margin: 0 !important;
@@ -243,17 +247,14 @@
     /* Page 2 */
     .page2 {
       width: 210mm !important;
-      height: 297mm !important;
       max-width: 210mm !important;
       padding: 10mm 14mm !important;
       box-sizing: border-box !important;
       page-break-before: always;
-      page-break-after: avoid !important;
       background: #fff !important;
       margin: 0 !important;
       box-shadow: none !important;
       border-radius: 0 !important;
-      overflow: hidden !important;
     }
 
     /* Force black backgrounds on table headers */
@@ -298,7 +299,7 @@
     .page2 .p2-info-row { margin-bottom: 8px; font-size: 11px; }
     .page2 .p2-header-row { margin-bottom: 4px; grid-template-columns: 1fr 1fr 1fr; }
     .page2 .p2-col-header { padding: 5px 8px; font-size: 9px; }
-    .page2 .p2-grid { grid-template-columns: 1fr 1fr 1fr; gap: 4px 8px; }
+    .page2 .p2-grid { grid-template-columns: 1fr 1fr 1fr; gap: 6px 8px; }
     .page2 .p2-cat-label { padding: 3px 6px; font-size: 8px; }
     .page2 .p2-num { font-size: 9px; padding: 3px 0 3px 4px; width: 20px; }
     .page2 .p2-item { font-size: 10px; padding: 3px 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -335,6 +336,7 @@
     .field-input { font-size:17px; padding:14px 16px; }
     .btn-generate { font-size:22px; padding:20px; }
     .doc-pages { padding: 40px; gap: 32px; max-width: 900px; margin: 0 auto; }
+    .page { padding: 48px 52px; }
   }
 </style>
 </head>
