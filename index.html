@@ -471,19 +471,20 @@
 
 <script>
 const GEAR_DATA = [
-  { cat:"シネレンズ / アナモルフィック", items:["SIRUI Venus 1.6X Anamorphic 35mm","SIRUI Venus 1.6X Anamorphic 50mm","SIRUI Venus 1.6X Anamorphic 75mm","SIRUI Venus 1.6X Anamorphic 100mm","SIRUI Venus 1.6X Anamorphic 150mm","Zunow WHV-075 0.75倍ワイコン"]},
-  { cat:"マットボックス / フィルター (4×5.65)", items:["LMB-15 マットボックス (3stage)","ND0.3 (4×5.65)","BlackPromist (4×5.65)"]},
-  { cat:"フォーカス / モニター", items:["Tilta Nucleus M ワイヤレスフォーカス","TV-logic F-5A モニター","SmallHD 502 モニター","SmallHD indie 7 モニター"]},
+  { cat:"シネレンズ / アナモルフィック (PLマウント)", items:["BLAZAR Remus 1.5X Anamorphic 33mm","BLAZAR Remus 1.5X Anamorphic 50mm","BLAZAR Remus 1.5X Anamorphic 65mm","BLAZAR Remus 1.5X Anamorphic 85mm","BLAZAR Remus 1.5X Anamorphic 125mm","Zunow WHV-075 0.75倍ワイコン","80φクランプアダプター"]},
+  { cat:"シネレンズ / アナモルフィック (Eマウント)", items:["SIRUI Venus 1.6X Anamorphic 35mm","SIRUI Venus 1.6X Anamorphic 50mm","SIRUI Venus 1.6X Anamorphic 75mm","SIRUI Venus 1.6X Anamorphic 100mm","SIRUI Venus 1.6X Anamorphic 150mm","Zunow WHV-075 0.75倍ワイコン","85φクランプアダプター"]},
+  { cat:"NIKONレンズ (Fマウント)", items:["NIKON AI NIKKOR 20mm","NIKON AI NIKKOR 24mm","NIKON AI NIKKOR 35mm","NIKON AI NIKKOR 50mm","NIKON AI NIKKOR 85mm","NIKON AI NIKKOR 135mm","95mmクランプ&ロッドアダプター","E-Fマウント変換"]},
+  { cat:"シネレンズ / DZOFilm (EFマウント)", items:["DZOFilm Vespid PRIME 25mm","DZOFilm Vespid PRIME 35mm","DZOFilm Vespid PRIME 50mm","DZOFilm Vespid PRIME 75mm","DZOFilm Vespid PRIME 100mm","DZOFilm Vespid PRIME 125mm","80φクランプアダプター","E-EFマウント変換","CANON EF8-15 T4 (FishEye)"]},
+  { cat:"マットボックス / フィルター (4×5.65)", items:["LMB-15 (3stage)","ND0.3 (4×5.65)","BlackPromist (4×5.65)"]},
+  { cat:"フォーカス / モニター", items:["Tilta Nucleus M focus","TV-logic F-5A","SmallHD 502","SmallHD indie 7"]},
   { cat:"ワイヤレス伝送", items:["Teradek BOLT 500 TX","Teradek BOLT 500 RX ×2","Accsoon CINEVIEW TX","transmitter用プレートセット","スピゴットアダプターセット","iPad ×2"]},
-  { cat:"ジンバル / リグ", items:["DJI RS4 ジンバル","RS用ハンドル","FX3 トッププレート","FX3 ハーフゲージ","L型プレート","ミニクイックリリースセット"]},
-  { cat:"アクセサリー / ケーブル", items:["NOGA アーム","BNC短ケーブル","HDMI短ケーブル","Dtap延長/分配","レベラーセット","六角/ネジ変換セット","マンフロットプレートセット","SmallRig ミニシェード","ナノクランプセット","SHAPEパン棒","SmallRig 15mmハンドル"]},
-  { cat:"丸形フィルター", items:["82mm NDフィルター","82mm PLフィルター","82mm BDフィルター","82mm GGフィルター","77mm NDフィルター","77mm BSフィルター","77mm BDフィルター","77mm LCフィルター","77mm ENHANフィルター","82mmバリアブルNDフィルター","77mmバリアブルNDフィルター","82mmプロクサー"]},
-  { cat:"三脚 / 雲台", items:["SmallRig TRIBEX 三脚","SWFOTO LB-68 レベリングベース","TRIBEX用スプレッター"]},
-  { cat:"カメラ本体 / レンズ", items:["SONY FE 24-105mm F4","SONY α7s III","α7s III用ケージ","NP-FZ100 バッテリー ×3"]},
-  { cat:"電源 / バッテリー", items:["モバイルバッテリー","NP-F550 ×8","チャージャーセット"]},
-  { cat:"NIKONレンズ (Fマウント)", items:["NIKON AI NIKKOR 20mm","NIKON AI NIKKOR 24mm","NIKON AI NIKKOR 35mm","NIKON AI NIKKOR 50mm","NIKON AI NIKKOR 85mm","NIKON AI NIKKOR 135mm","E-Fマウント変換アダプター"]},
-  { cat:"DZOFilm Vespid (EFマウント)", items:["DZOFilm Vespid PRIME 25mm","DZOFilm Vespid PRIME 35mm","DZOFilm Vespid PRIME 50mm","DZOFilm Vespid PRIME 75mm","DZOFilm Vespid PRIME 100mm","DZOFilm Vespid PRIME 125mm","E-EFマウント変換アダプター","CANON EF 8-15mm T4 FishEye"]},
-  { cat:"音声 / その他", items:["ロングアーム","RODE ガンマイク","3.5mm延長ケーブル / イヤホン","スマホホルダー","スタンド用靴下","Ulanzi フォグマシン","プリズムフィルター"]},
+  { cat:"ジンバル / リグ", items:["DJI RS4","RS用ハンドル","FX3 トッププレート","FX3 ハーフゲージ","L型プレート"]},
+  { cat:"アクセサリー / ケーブル", items:["NOGA アーム","BNC短ケーブル","HDMI短ケーブル","Dtap延長/分配セット","レベラーセット","六角/ネジ変換セット","マンフロットプレートセット","ナノクランプセット","ミニクイックリリースセット","SmallRig ミニシェード","SHAPEパン棒","SmallRig 15mmハンドル"]},
+  { cat:"丸型フィルター", items:["82mmプロクサー","82mmバリアブル ND","82mm ND (0.3-1.2)","82mm PL","82mm Black Diffusion","82mm Glimmerglass","77mmバリアブル ND","77mm ND (0.3-1.2)","77mm Black Satin","77mm Black Diffusion","77mm Low Contrast","77mm Enhancing","プリズムフィルター各種"]},
+  { cat:"電源 / バッテリー", items:["チャージャーセット","モバイルバッテリー","NP-F550 ×8"]},
+  { cat:"三脚", items:["SmallRig TRIBEX","SWFOTO LB-68 レベリングベース","TRIBEX用スプレッター"]},
+  { cat:"カメラ本体 / レンズ", items:["SONY FE 24-105mm F4","SONY α7s III","α7s III用ケージ","NP-FZ100 ×3"]},
+  { cat:"音声 / その他", items:["ロングアーム","RODE ガンマイク","3.5mm延長ケーブル / イヤホン","スマホホルダー","スタンド用靴下","Ulanzi フォグ"]},
 ];
 
 let selected = new Set();
@@ -723,13 +724,25 @@ async function printDoc(){
     const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
     const pages = document.querySelectorAll('.page-inner');
 
+    // 一時コンテナ：画面外に794px固定幅で配置
+    const container = document.createElement('div');
+    container.style.cssText = 'position:fixed;top:0;left:-9999px;width:794px;height:1123px;overflow:visible;background:#fff;z-index:-1;';
+    document.body.appendChild(container);
+
     for (let i = 0; i < pages.length; i++) {
       const inner = pages[i];
-      // 一時的にスケールを解除して実寸でキャプチャ
+      const parent = inner.parentNode;
+      const nextSibling = inner.nextSibling;
+
+      // transformを解除してコンテナへ移動
       const prevTransform = inner.style.transform;
       inner.style.transform = 'none';
       inner.style.width = '794px';
       inner.style.height = '1123px';
+      inner.style.position = 'relative';
+      container.appendChild(inner);
+
+      await new Promise(r => setTimeout(r, 80)); // レイアウト安定待ち
 
       const canvas = await html2canvas(inner, {
         scale: 2,
@@ -738,17 +751,23 @@ async function printDoc(){
         backgroundColor: '#ffffff',
         width: 794,
         height: 1123,
+        windowWidth: 794,
       });
 
+      // 元の場所に戻す
       inner.style.transform = prevTransform;
-      inner.style.width = '';
-      inner.style.height = '';
+      inner.style.width = '794px';
+      inner.style.height = '1123px';
+      inner.style.position = 'absolute';
+      if (nextSibling) parent.insertBefore(inner, nextSibling);
+      else parent.appendChild(inner);
 
       const imgData = canvas.toDataURL('image/jpeg', 0.95);
       if (i > 0) pdf.addPage();
       pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
     }
 
+    document.body.removeChild(container);
     pdf.save(filename);
   } catch(e) {
     alert('PDF生成に失敗しました: ' + e.message);
