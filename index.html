@@ -7,6 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
   :root {
     --bg: #111;
@@ -697,29 +699,63 @@ function scalePages() {
   document.querySelectorAll('.page').forEach(page => {
     const inner = page.querySelector('.page-inner');
     if (!inner) return;
-    const scaleX = page.offsetWidth / 794;
-    const scaleY = page.offsetHeight / 1123;
-    const scale = Math.min(scaleX, scaleY);
+    const scale = page.offsetWidth / 794;
     inner.style.transform = `scale(${scale})`;
+    inner.style.width = '794px';
+    inner.style.height = '1123px';
   });
 }
 window.addEventListener('resize', scalePages);
 function closeModal(){document.getElementById('modal').classList.remove('open');}
-function printDoc(){
+
+async function printDoc(){
   const estNo = document.getElementById('estimate-no').value || window._lastEstNo || '';
   const project = document.getElementById('project-name').value || '';
   const parts = [estNo, project].filter(Boolean);
-  document.title = parts.length ? parts.join('_') : '見積書';
+  const filename = (parts.length ? parts.join('_') : '見積書') + '.pdf';
 
-  // Safari・Chromeどちらでもヘッダー・フッターを抑制するためstyleを動的注入
-  const styleId = 'print-margin-fix';
-  if (!document.getElementById(styleId)) {
-    const s = document.createElement('style');
-    s.id = styleId;
-    s.textContent = `@media print { @page { margin: 0 !important; size: A4 !important; } html, body { margin: 0 !important; padding: 0 !important; } }`;
-    document.head.appendChild(s);
+  const btn = document.querySelector('.btn-print');
+  btn.textContent = '⏳ 生成中...';
+  btn.disabled = true;
+
+  try {
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    const pages = document.querySelectorAll('.page-inner');
+
+    for (let i = 0; i < pages.length; i++) {
+      const inner = pages[i];
+      // 一時的にスケールを解除して実寸でキャプチャ
+      const prevTransform = inner.style.transform;
+      inner.style.transform = 'none';
+      inner.style.width = '794px';
+      inner.style.height = '1123px';
+
+      const canvas = await html2canvas(inner, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#ffffff',
+        width: 794,
+        height: 1123,
+      });
+
+      inner.style.transform = prevTransform;
+      inner.style.width = '';
+      inner.style.height = '';
+
+      const imgData = canvas.toDataURL('image/jpeg', 0.95);
+      if (i > 0) pdf.addPage();
+      pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
+    }
+
+    pdf.save(filename);
+  } catch(e) {
+    alert('PDF生成に失敗しました: ' + e.message);
+  } finally {
+    btn.textContent = '📄 PDFとして保存';
+    btn.disabled = false;
   }
-  setTimeout(() => window.print(), 200);
 }
 buildGearList();
 document.getElementById('shoot-date').value=new Date().toISOString().split('T')[0];
