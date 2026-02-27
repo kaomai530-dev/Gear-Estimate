@@ -161,7 +161,7 @@
   .p1-total-main span:last-child { font-size:19px; }
 
   /* Page 2 */
-  .p2-info-row { display:flex; gap:32px; margin-bottom:12px; font-size:13px; color:#666; }
+  .p2-info-row { display:flex; gap:32px; margin-bottom:12px; font-size:13px; color:#333; }
   .p2-info-row strong { color:#111; }
 
   /* 3-column layout */
@@ -173,7 +173,6 @@
   }
   .p2-col { display:flex; flex-direction:column; gap:6px; min-width:0; }
 
-  /* Column header (above each col) — rendered inside each col as first element via JS */
   .p2-col-header-bar {
     background: #111;
     color: #fff;
@@ -193,12 +192,11 @@
   /* Each category block */
   .p2-cat-block { break-inside: avoid; min-width: 0; }
   .p2-cat-label {
-    background: #f4f4f4;
+    background: #ebebeb;
     font-size: 10px;
     font-weight: 700;
-    letter-spacing: 1.5px;
-    color: #888;
-    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #333;
     padding: 5px 8px;
     font-family: 'IBM Plex Mono', monospace;
     white-space: nowrap;
@@ -207,11 +205,11 @@
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
-  .p2-row { display:flex; border-bottom:1px solid #f0f0f0; align-items:center; min-width:0; }
-  .p2-num { width:22px; padding:5px 0 5px 4px; font-size:10px; color:#bbb; font-family:monospace; text-align:center; flex-shrink:0; }
-  .p2-item { padding:5px 5px; font-size:12px; flex:1; line-height:1.35; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; }
+  .p2-row { display:flex; border-bottom:1px solid #e8e8e8; align-items:center; min-width:0; }
+  .p2-num { width:22px; padding:5px 0 5px 4px; font-size:10px; color:#666; font-family:monospace; text-align:center; flex-shrink:0; }
+  .p2-item { padding:5px 5px; font-size:12px; color:#111; flex:1; line-height:1.35; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; }
 
-  .p2-footer { margin-top:12px; border-top:1px solid #ddd; padding-top:10px; font-size:11px; color:#aaa; text-align:center; }
+  .p2-footer { margin-top:12px; border-top:1px solid #ddd; padding-top:10px; font-size:11px; color:#888; text-align:center; }
 
   @page {
     size: A4;
@@ -724,9 +722,19 @@ async function printDoc(){
     const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
     const pages = document.querySelectorAll('.page-inner');
 
-    // 一時コンテナ：画面外に794px固定幅で配置
+    // 画面外794px固定の専用コンテナ
     const container = document.createElement('div');
-    container.style.cssText = 'position:fixed;top:0;left:-9999px;width:794px;height:1123px;overflow:visible;background:#fff;z-index:-1;';
+    container.style.cssText = [
+      'position:fixed',
+      'top:0',
+      'left:-900px',
+      'width:794px',
+      'height:1123px',
+      'overflow:visible',
+      'background:#fff',
+      'z-index:9999',
+      'font-family:"Noto Sans JP",sans-serif',
+    ].join(';');
     document.body.appendChild(container);
 
     for (let i = 0; i < pages.length; i++) {
@@ -734,35 +742,44 @@ async function printDoc(){
       const parent = inner.parentNode;
       const nextSibling = inner.nextSibling;
 
-      // transformを解除してコンテナへ移動
-      const prevTransform = inner.style.transform;
+      // transformを解除してコンテナへ
       inner.style.transform = 'none';
       inner.style.width = '794px';
       inner.style.height = '1123px';
       inner.style.position = 'relative';
+      inner.style.top = '0';
+      inner.style.left = '0';
       container.appendChild(inner);
 
-      await new Promise(r => setTimeout(r, 80)); // レイアウト安定待ち
+      // フォント読み込み・レイアウト確定を待つ
+      await document.fonts.ready;
+      await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
 
-      const canvas = await html2canvas(inner, {
+      const canvas = await html2canvas(container, {
         scale: 2,
         useCORS: true,
+        allowTaint: true,
         logging: false,
         backgroundColor: '#ffffff',
         width: 794,
         height: 1123,
         windowWidth: 794,
+        windowHeight: 1123,
+        x: 0,
+        y: 0,
       });
 
       // 元の場所に戻す
-      inner.style.transform = prevTransform;
-      inner.style.width = '794px';
-      inner.style.height = '1123px';
       inner.style.position = 'absolute';
+      inner.style.top = '0';
+      inner.style.left = '0';
       if (nextSibling) parent.insertBefore(inner, nextSibling);
       else parent.appendChild(inner);
 
-      const imgData = canvas.toDataURL('image/jpeg', 0.95);
+      // scaleを再適用
+      requestAnimationFrame(() => scalePages());
+
+      const imgData = canvas.toDataURL('image/jpeg', 0.97);
       if (i > 0) pdf.addPage();
       pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
     }
@@ -770,6 +787,7 @@ async function printDoc(){
     document.body.removeChild(container);
     pdf.save(filename);
   } catch(e) {
+    console.error(e);
     alert('PDF生成に失敗しました: ' + e.message);
   } finally {
     btn.textContent = '📄 PDFとして保存';
