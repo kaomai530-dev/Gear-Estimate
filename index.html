@@ -213,24 +213,11 @@
 
   @page {
     size: A4;
-    /* ブラウザのデフォルトヘッダー・フッター（URL・日時）を非表示にするためmarginを0に */
     margin: 0;
   }
-  @media print {
-    /* ページ番号表示用のカウンター */
-    body { counter-reset: page-counter; }
-    .page { counter-increment: page-counter; }
-    .page::after {
-      content: counter(page-counter);
-      position: fixed;
-      bottom: 6mm;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 9pt;
-      color: #999;
-      font-family: 'IBM Plex Mono', monospace;
-    }
-  }
+  /* Safari用：ヘッダー・フッター非表示のためのmargin制御 */
+  @page :first { margin: 0; }
+  @page { margin: 0; }
 
   @media print {
     html, body {
@@ -263,6 +250,7 @@
     .doc-pages {
       padding: 0 !important;
       gap: 0 !important;
+      display: block !important;
     }
 
     /* Page 1 — 高さはコンテンツに任せる */
@@ -279,6 +267,8 @@
       overflow: visible !important;
       display: block !important;
       position: relative !important;
+      page-break-after: always !important;
+      break-after: page !important;
     }
 
     /* Page 2 */
@@ -289,6 +279,9 @@
       padding: 0 !important;
       box-sizing: border-box !important;
       page-break-before: always !important;
+      break-before: page !important;
+      page-break-after: avoid !important;
+      break-after: avoid !important;
       background: #fff !important;
       margin: 0 !important;
       box-shadow: none !important;
@@ -717,8 +710,15 @@ function printDoc(){
   const project = document.getElementById('project-name').value || '';
   const parts = [estNo, project].filter(Boolean);
   document.title = parts.length ? parts.join('_') : '見積書';
-  // Chromeのヘッダー・フッター（URL・日時）はブラウザ設定で非表示にする必要あり
-  // 印刷ダイアログ →「詳細設定」→「ヘッダーとフッター」をオフ
+
+  // Safari・Chromeどちらでもヘッダー・フッターを抑制するためstyleを動的注入
+  const styleId = 'print-margin-fix';
+  if (!document.getElementById(styleId)) {
+    const s = document.createElement('style');
+    s.id = styleId;
+    s.textContent = `@media print { @page { margin: 0 !important; size: A4 !important; } html, body { margin: 0 !important; padding: 0 !important; } }`;
+    document.head.appendChild(s);
+  }
   setTimeout(() => window.print(), 200);
 }
 buildGearList();
