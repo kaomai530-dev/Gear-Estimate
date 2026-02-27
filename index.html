@@ -161,36 +161,61 @@
     margin: 0;
   }
   @media print {
-    body { background:#fff !important; }
+    html, body {
+      background: #fff !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
     body > .header,
     body > .main,
-    body > .bottom-bar { display:none !important; }
+    body > .bottom-bar {
+      display: none !important;
+    }
     .modal-overlay {
-      display:block !important;
-      position:static !important;
-      background:#fff !important;
-      overflow:visible !important;
-      z-index:auto !important;
+      display: block !important;
+      position: static !important;
+      background: #fff !important;
+      overflow: visible !important;
+      z-index: auto !important;
+      width: 100% !important;
     }
     .modal {
-      max-width:100% !important;
-      background:#fff !important;
-      min-height:auto !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      background: #fff !important;
+      min-height: auto !important;
+      box-shadow: none !important;
     }
-    .modal-actions { display:none !important; }
-    .page { max-width:100%; }
+    .modal-actions { display: none !important; }
+    /* Page 1: A4 fixed */
     .page1 {
       width: 210mm;
       min-height: 297mm;
+      max-width: 210mm;
       padding: 16mm 18mm;
       box-sizing: border-box;
-      page-break-after: always;
+      background: #fff;
+      margin: 0;
     }
+    /* Page 2: auto height, no page break forced */
     .page2 {
+      width: 210mm;
+      max-width: 210mm;
+      padding: 12mm 18mm;
+      box-sizing: border-box;
       page-break-before: always;
-      border-top: none;
-      padding: 16mm 18mm;
+      border-top: none !important;
+      background: #fff;
+      margin: 0;
     }
+    /* Compact page2 for fitting all gear */
+    .page2 .p1-header { margin-bottom: 10px; }
+    .page2 .p1-rule { margin: 0 0 12px 0; }
+    .page2 .p2-th-num,
+    .page2 .p2-th-item { padding: 6px 10px; font-size: 10px; }
+    .page2 .p2-cat { padding: 5px 10px; font-size: 10px; }
+    .page2 .p2-num { padding: 5px 10px; font-size: 10px; }
+    .page2 .p2-item { padding: 5px 10px; font-size: 11px; }
   }
   @media (min-width:768px) {
     body { font-size:17px; }
@@ -535,7 +560,8 @@ function printDoc(){
   const project = document.getElementById('project-name').value || '';
   const parts = [estNo, project].filter(Boolean);
   document.title = parts.length ? parts.join('_') : '見積書';
-  window.print();
+  // Small delay to ensure fonts/layout are rendered
+  setTimeout(() => window.print(), 300);
 }
 buildGearList();
 document.getElementById('shoot-date').value=new Date().toISOString().split('T')[0];
