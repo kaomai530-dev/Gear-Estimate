@@ -242,7 +242,11 @@
       print-color-adjust: exact !important;
     }
 
-    /* Compact page2 for fitting all gear */
+    /* Auto-scale page2 to fit all gear in one page */
+    .page2 {
+      transform-origin: top left !important;
+      overflow: hidden !important;
+    }
     .page2 .p1-header { margin-bottom: 10px; }
     .page2 .p1-rule { margin: 0 0 12px 0; }
     .page2 .p2-info-row { margin-bottom: 14px; }
@@ -575,7 +579,33 @@ function printDoc(){
   const project = document.getElementById('project-name').value || '';
   const parts = [estNo, project].filter(Boolean);
   document.title = parts.length ? parts.join('_') : '見積書';
-  setTimeout(() => window.print(), 300);
+
+  // Auto-scale page2 to fit within A4 (297mm = ~1122px at 96dpi)
+  const page2 = document.querySelector('.page2');
+  if (page2) {
+    page2.style.transform = '';
+    page2.style.width = '';
+    const A4_HEIGHT_PX = 1122; // 297mm at 96dpi
+    const A4_WIDTH_PX = 794;   // 210mm at 96dpi
+    const contentH = page2.scrollHeight;
+    if (contentH > A4_HEIGHT_PX) {
+      const scale = A4_HEIGHT_PX / contentH;
+      page2.style.transform = `scale(${scale})`;
+      page2.style.transformOrigin = 'top left';
+      page2.style.width = (A4_WIDTH_PX / scale) + 'px';
+    }
+  }
+
+  setTimeout(() => {
+    window.print();
+    // Reset after print
+    setTimeout(() => {
+      if (page2) {
+        page2.style.transform = '';
+        page2.style.width = '';
+      }
+    }, 1000);
+  }, 300);
 }
 buildGearList();
 document.getElementById('shoot-date').value=new Date().toISOString().split('T')[0];
