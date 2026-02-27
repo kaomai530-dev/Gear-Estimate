@@ -68,7 +68,7 @@
   .btn-generate:disabled { background:var(--border); color:var(--muted); }
 
   /* MODAL */
-  .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:300; display:none; flex-direction:column; overflow-y:auto; }
+  .modal-overlay { position:fixed; inset:0; background:#fff; z-index:300; display:none; flex-direction:column; overflow-y:auto; }
   .modal-overlay.open { display:flex; }
   .modal { background:#fff; color:#111; width:100%; min-height:100%; font-family:'Noto Sans JP',sans-serif; }
   .doc { padding:28px 20px; }
@@ -98,7 +98,80 @@
   .total-simple-row:last-of-type { border-bottom:none; }
   .total-simple-main { padding-top:14px; margin-top:6px; border-top:2px solid #111 !important; border-bottom:none !important; font-size:18px; font-weight:700; color:#111; }
   .total-simple-main span:last-child { font-size:22px; }
-  @media print { .modal-actions,.header,.main,.bottom-bar { display:none; } .modal-overlay { position:absolute; background:#fff; } }
+
+  /* ===== 2-PAGE DOC STYLES ===== */
+  .page {
+    background: #fff;
+    font-family: 'Noto Sans JP', sans-serif;
+    color: #111;
+    padding: 48px 52px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .page2 { }
+
+  /* Header */
+  .p1-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; }
+  .p1-logo { font-family:'Bebas Neue',sans-serif; font-size:32px; letter-spacing:4px; color:#111; line-height:1; }
+  .p1-logo-sub { font-size:12px; color:#888; margin-top:4px; letter-spacing:1px; }
+  .p1-right { text-align:right; }
+  .p1-title { font-family:'Noto Sans JP',sans-serif; font-size:26px; font-weight:700; letter-spacing:6px; color:#111; line-height:1; }
+  .p1-meta { font-size:13px; color:#888; margin-top:6px; letter-spacing:1px; font-family:'IBM Plex Mono',monospace; }
+
+  .p1-rule { border:none; border-top:2px solid #111; margin:0 0 28px 0; }
+
+  /* Info grid */
+  .p1-info-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px 48px; margin-bottom:32px; }
+  .p1-info-label { font-size:11px; color:#aaa; letter-spacing:1px; margin-bottom:6px; }
+  .p1-info-value { font-size:16px; color:#111; border-bottom:1.5px solid #111; padding-bottom:6px; min-height:28px; }
+  .p1-info-value.bold { font-weight:700; font-size:18px; }
+  .p1-info-sub { font-size:11px; color:#666; margin-top:4px; line-height:1.7; }
+
+  /* Main table */
+  .p1-table { width:100%; border-collapse:collapse; margin-bottom:32px; }
+  .p1-table thead tr { background:#111; color:#fff; }
+  .p1-th-item { padding:11px 16px; font-size:13px; font-weight:700; text-align:left; width:25%; }
+  .p1-th-detail { padding:11px 16px; font-size:13px; font-weight:700; text-align:left; }
+  .p1-th-price { padding:11px 16px; font-size:13px; font-weight:700; text-align:right; width:15%; }
+  .p1-td-item { padding:18px 16px; font-size:15px; font-weight:700; border-bottom:1px solid #e8e8e8; vertical-align:top; }
+  .p1-td-detail { padding:18px 16px; font-size:13px; color:#555; border-bottom:1px solid #e8e8e8; vertical-align:top; line-height:1.8; }
+  .p1-td-price { padding:18px 16px; font-size:15px; font-weight:500; text-align:right; border-bottom:1px solid #e8e8e8; vertical-align:top; letter-spacing:1px; }
+
+  /* Total box */
+  .p1-total-wrap { display:flex; justify-content:flex-end; }
+  .p1-total-box { border:1.5px solid #111; border-radius:4px; padding:20px 28px; width:300px; }
+  .p1-total-row { display:flex; justify-content:space-between; font-size:13px; color:#555; margin-bottom:10px; }
+  .p1-total-rule { border:none; border-top:1px solid #ccc; margin:12px 0; }
+  .p1-total-main { font-size:17px; font-weight:700; color:#111; margin-bottom:0; }
+  .p1-total-main span:last-child { font-size:20px; }
+
+  /* Page 2 table */
+  .p2-table { width:100%; border-collapse:collapse; }
+  .p2-th-num { background:#111; color:#fff; padding:9px 12px; font-size:11px; font-weight:400; letter-spacing:2px; width:40px; text-align:center; }
+  .p2-th-item { background:#111; color:#fff; padding:9px 14px; font-size:11px; font-weight:400; letter-spacing:2px; text-align:left; }
+  .p2-cat { background:#f4f4f4; font-size:11px; font-weight:700; letter-spacing:2px; color:#888; text-transform:uppercase; padding:8px 14px; font-family:'IBM Plex Mono',monospace; }
+  .p2-num { padding:9px 12px; font-size:11px; color:#bbb; font-family:monospace; text-align:center; border-bottom:1px solid #f0f0f0; }
+  .p2-item { padding:9px 14px; font-size:13px; border-bottom:1px solid #f0f0f0; }
+  .cat-row td { border-bottom:none !important; }
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  @media print {
+    .modal-actions,.header,.main,.bottom-bar { display:none !important; }
+    .modal-overlay { position:fixed; inset:0; background:#fff; overflow:visible; }
+    .modal { max-width:100%; }
+    .page { max-width:100%; }
+    .page1 {
+      width: 210mm;
+      min-height: 297mm;
+      padding: 16mm 18mm;
+      box-sizing: border-box;
+      page-break-after: always;
+    }
+    .page2 { page-break-before:always; border-top:none; padding: 16mm 18mm; }
+  }
   @media (min-width:768px) {
     body { font-size:17px; }
     .header { padding:20px 40px; }
@@ -176,8 +249,12 @@
       </div>
       <div class="client-block">
         <div class="field-group">
-          <div class="field-label">クライアント / 案件名</div>
-          <input class="field-input" id="client-name" placeholder="株式会社〇〇 / プロモーション撮影" type="text">
+          <div class="field-label">宛先（クライアント名）</div>
+          <input class="field-input" id="client-name" placeholder="株式会社〇〇" type="text">
+        </div>
+        <div class="field-group">
+          <div class="field-label">案件名</div>
+          <input class="field-input" id="project-name" placeholder="プロモーション撮影" type="text">
         </div>
         <div class="field-group">
           <div class="field-label">撮影日</div>
@@ -287,44 +364,146 @@ function fmtP(n){return '¥'+Number(n).toLocaleString();}
 function generateEstimate(){
   const price=parseInt(document.getElementById('price-input').value)||50000;
   const client=document.getElementById('client-name').value||'—';
+  const project=document.getElementById('project-name').value||'—';
   const date=document.getElementById('shoot-date').value;
-  const estNo=document.getElementById('estimate-no').value||`EST-${new Date().getFullYear()}-${String(Date.now()).slice(-4)}`;
-  const today=new Date().toLocaleDateString('ja-JP');
-  const shootDate=date?new Date(date+'T00:00:00').toLocaleDateString('ja-JP'):'—';
+  const estNoInput=document.getElementById('estimate-no').value;
+  let estNo;
+  if(estNoInput){
+    estNo=estNoInput;
+  } else {
+    const d=new Date();
+    const ymd=`${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+    if(!window._estCounter) window._estCounter={};
+    if(!window._estCounter[ymd]) window._estCounter[ymd]=1;
+    else window._estCounter[ymd]++;
+    estNo=`${ymd}_${String(window._estCounter[ymd]).padStart(2,'0')}`;
+  }
   const tax=Math.floor(price*0.1); const total=price+tax;
-  const rows=[...selected].map((item,i)=>`<tr><td style="color:#bbb;font-family:monospace;font-size:11px;width:36px">${String(i+1).padStart(2,'0')}</td><td>${item}</td></tr>`).join('');
+
+  // Format date as YYYY.MM.DD
+  const now=new Date();
+  const todayFmt=`${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')}`;
+  const shootDate=date?`${date.replace(/-/g,'.')}` :'—';
+
+  // Page 2: gear rows grouped by category
+  const gearRows = GEAR_DATA.map(cat => {
+    const selItems = cat.items.filter(item => selected.has(item));
+    if(selItems.length===0) return '';
+    return `
+      <tr class="cat-row"><td colspan="2" class="p2-cat">${cat.cat}</td></tr>
+      ${selItems.map((item,i)=>`<tr><td class="p2-num">${String(i+1).padStart(2,'0')}</td><td class="p2-item">${item}</td></tr>`).join('')}
+    `;
+  }).join('');
+
   document.getElementById('doc-content').innerHTML=`
-    <div class="doc-header">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;">
-        <div>
-          <div class="doc-title">御見積書</div>
-          <div class="doc-title-sub">ESTIMATE — PERSONAL GEAR PACKAGE</div>
-          <div class="doc-meta-row" style="margin-top:10px;"><span>見積番号: <strong>${estNo}</strong></span><span>発行日: <strong>${today}</strong></span></div>
+
+    <!-- ===== PAGE 1: 見積書 ===== -->
+    <div class="page page1">
+
+      <div class="p1-header">
+        <div class="p1-left">
+          <div class="p1-logo">IMOK</div>
+          <div class="p1-logo-sub">今岡 個人機材パッケージ</div>
         </div>
-        <div style="text-align:right;font-size:13px;line-height:2;color:#444;">
-          <div style="font-size:16px;font-weight:700;color:#111;margin-bottom:4px;">今岡利明</div>
-          <div>〒165-0026</div>
-          <div>東京都中野区新井1-36-9</div>
-          <div>岡田ビル302</div>
-          <div style="margin-top:6px;">TEL: 090-5526-8190</div>
-          <div>mail@t-imok.com</div>
-          <div>登録番号: T9810440218359</div>
+        <div class="p1-right">
+          <div class="p1-title">撮影機材費 見積書</div>
+          <div class="p1-meta">No. ${estNo}&nbsp;&nbsp;|&nbsp;&nbsp;${todayFmt}</div>
         </div>
       </div>
+
+      <div class="p1-rule"></div>
+
+      <div class="p1-info-grid">
+        <div>
+          <div class="p1-info-label">宛先</div>
+          <div class="p1-info-value">${client}</div>
+        </div>
+        <div>
+          <div class="p1-info-label">案件名</div>
+          <div class="p1-info-value">${project}</div>
+        </div>
+        <div>
+          <div class="p1-info-label">撮影日</div>
+          <div class="p1-info-value">${shootDate}</div>
+        </div>
+        <div>
+          <div class="p1-info-label">機材所有者</div>
+          <div class="p1-info-value bold">今岡利明</div>
+          <div class="p1-info-sub">〒165-0026 東京都中野区新井1-36-9 岡田ビル302</div>
+          <div class="p1-info-sub">TEL: 090-5526-8190</div>
+          <div class="p1-info-sub">mail@t-imok.com</div>
+          <div class="p1-info-sub">登録番号: T9810440218359</div>
+        </div>
+
+      </div>
+
+      <table class="p1-table">
+        <thead>
+          <tr>
+            <th class="p1-th-item">品目</th>
+            <th class="p1-th-detail">詳細</th>
+            <th class="p1-th-price">金額</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="p1-td-item">撮影機材費</td>
+            <td class="p1-td-detail">私物機材一式（${selected.size}点）<br><span style="font-size:11px;color:#888">※詳細は別紙 機材一覧を参照</span></td>
+            <td class="p1-td-price">${fmtP(price)}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="p1-total-wrap">
+        <div class="p1-total-box">
+          <div class="p1-total-row"><span>小計</span><span>${fmtP(price)}</span></div>
+          <div class="p1-total-row"><span>消費税（10%）</span><span>${fmtP(tax)}</span></div>
+          <div class="p1-total-rule"></div>
+          <div class="p1-total-row p1-total-main"><span>合計</span><span>${fmtP(total)}</span></div>
+        </div>
+      </div>
+
     </div>
-    <div style="display:flex;gap:24px;margin-bottom:20px;flex-wrap:wrap">
-      <div><div class="doc-section-label">お客様 / 案件名</div><div class="doc-section-value">${client}</div></div>
-      <div><div class="doc-section-label">撮影日</div><div class="doc-section-value">${shootDate}</div></div>
+
+    <!-- ===== PAGE 2: 機材一覧 ===== -->
+    <div class="page page2">
+
+      <div class="p1-header">
+        <div class="p1-left">
+          <div class="p1-logo">IMOK</div>
+          <div class="p1-logo-sub">今岡 個人機材パッケージ</div>
+        </div>
+        <div class="p1-right">
+          <div class="p1-title" style="font-size:28px;">機材一覧</div>
+          <div class="p1-meta">No. ${estNo}&nbsp;&nbsp;|&nbsp;&nbsp;${todayFmt}</div>
+        </div>
+      </div>
+
+      <div class="p1-rule"></div>
+
+      <div style="display:flex;gap:32px;margin-bottom:24px;font-size:13px;color:#666;">
+        <span>持参機材数: <strong style="color:#111">${selected.size} 点</strong></span>
+        <span>機材所有者: <strong style="color:#111">今岡利明</strong></span>
+      </div>
+
+      <table class="p2-table">
+        <thead>
+          <tr>
+            <th class="p2-th-num">#</th>
+            <th class="p2-th-item">機材名称</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${gearRows}
+        </tbody>
+      </table>
+
+      <div class="p1-rule" style="margin-top:24px;"></div>
+      <div style="font-size:11px;color:#aaa;text-align:center;margin-top:12px;">
+        IMOK Personal Gear Package — 今岡個人機材見積書（別紙）
+      </div>
+
     </div>
-    <table class="doc-table"><thead><tr><th>#</th><th>機材名称</th></tr></thead><tbody>${rows}</tbody></table>
-    <div class="doc-total-simple">
-      <div class="total-simple-row"><span>機材パッケージ料金（税別）</span><span>${fmtP(price)}</span></div>
-      <div class="total-simple-row"><span>消費税（10%）</span><span>${fmtP(tax)}</span></div>
-      <div class="total-simple-row total-simple-main"><span>合計（税込）</span><span>${fmtP(total)}</span></div>
-      <div style="font-size:11px;color:#aaa;margin-top:8px;text-align:right;">使用機材 計 ${selected.size} 点</div>
-    </div>
-    <div class="doc-note">上記機材は今岡の私物機材であり、撮影のために持参した機材一式です。<br>個別機材の単価請求ではなく、パッケージ料金としてご請求いたします。<br>機材の損耗・メンテナンス費用を含む使用料として計上しております。</div>
-    <div class="doc-footer">IMOK Personal Gear Package — 今岡個人機材見積書<br>本見積書の有効期限は発行日より30日間とします</div>
   `;
   document.getElementById('modal').classList.add('open');
   sheetOpen=false; document.getElementById('bottom-bar').classList.remove('expanded');
