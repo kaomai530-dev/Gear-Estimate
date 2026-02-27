@@ -183,7 +183,7 @@
   }
   .p2-row { display:flex; border-bottom:1px solid #f0f0f0; align-items:center; }
   .p2-num { width:24px; padding:5px 0 5px 6px; font-size:10px; color:#bbb; font-family:monospace; text-align:center; flex-shrink:0; }
-  .p2-item { padding:5px 6px; font-size:12px; flex:1; line-height:1.35; }
+  .p2-item { padding:5px 6px; font-size:12px; flex:1; line-height:1.35; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 
   .p2-footer { margin-top:12px; border-top:1px solid #ddd; padding-top:10px; font-size:11px; color:#aaa; text-align:center; }
 
@@ -301,7 +301,7 @@
     .page2 .p2-grid { grid-template-columns: 1fr 1fr 1fr; gap: 4px 8px; }
     .page2 .p2-cat-label { padding: 3px 6px; font-size: 8px; }
     .page2 .p2-num { font-size: 9px; padding: 3px 0 3px 4px; width: 20px; }
-    .page2 .p2-item { font-size: 10px; padding: 3px 5px; }
+    .page2 .p2-item { font-size: 10px; padding: 3px 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .page2 .p2-footer { margin-top: 8px; font-size: 9px; }
   }
 
@@ -515,14 +515,18 @@ function generateEstimate(){
   const todayFmt=`${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')}`;
   const shootDate=date?`${date.replace(/-/g,'.')}` :'—';
 
+  let globalNum = 0;
   const gearBlocks = GEAR_DATA.map(cat => {
     const selItems = cat.items.filter(item => selected.has(item));
     if(selItems.length===0) return '';
-    const rows = selItems.map((item,i)=>`
+    const rows = selItems.map(item => {
+      globalNum++;
+      return `
       <div class="p2-row">
-        <span class="p2-num">${String(i+1).padStart(2,'0')}</span>
+        <span class="p2-num">${String(globalNum).padStart(2,'0')}</span>
         <span class="p2-item">${item}</span>
-      </div>`).join('');
+      </div>`;
+    }).join('');
     return `<div class="p2-cat-block"><div class="p2-cat-label">${cat.cat}</div><div class="p2-cat-items">${rows}</div></div>`;
   }).join('');
 
