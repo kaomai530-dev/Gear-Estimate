@@ -124,6 +124,9 @@
     padding: 72px 68px 60px;
     box-sizing: border-box;
   }
+  .page2 .page-inner {
+    padding: 50px 46px 40px;
+  }
   .page1 .page-inner { display:flex; flex-direction:column; justify-content:space-between; }
 
   /* Header */
@@ -168,36 +171,36 @@
   .p2-columns {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 0 10px;
+    gap: 0 8px;
     align-items: start;
   }
-  .p2-col { display:flex; flex-direction:column; gap:6px; min-width:0; }
+  .p2-col { display:flex; flex-direction:column; gap:4px; min-width:0; }
 
   .p2-col-header-bar {
     background: #111;
     color: #fff;
-    padding: 6px 8px;
-    font-size: 10px;
+    padding: 5px 6px;
+    font-size: 9px;
     font-weight: 400;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
     display: flex;
-    gap: 6px;
+    gap: 4px;
     align-items: center;
-    margin-bottom: 4px;
+    margin-bottom: 3px;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
-  .p2-col-num-h { width:22px; text-align:center; flex-shrink:0; }
+  .p2-col-num-h { width:18px; text-align:center; flex-shrink:0; }
 
   /* Each category block */
   .p2-cat-block { break-inside: avoid; min-width: 0; }
   .p2-cat-label {
     background: #ebebeb;
-    font-size: 10px;
+    font-size: 8.5px;
     font-weight: 700;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     color: #333;
-    padding: 5px 8px;
+    padding: 4px 6px;
     font-family: 'IBM Plex Mono', monospace;
     white-space: nowrap;
     overflow: hidden;
@@ -206,8 +209,8 @@
     print-color-adjust: exact;
   }
   .p2-row { display:flex; border-bottom:1px solid #e8e8e8; align-items:center; min-width:0; }
-  .p2-num { width:22px; padding:5px 0 5px 4px; font-size:10px; color:#666; font-family:monospace; text-align:center; flex-shrink:0; }
-  .p2-item { padding:5px 5px; font-size:12px; color:#111; flex:1; line-height:1.35; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; }
+  .p2-num { width:18px; padding:4px 0 4px 3px; font-size:9px; color:#666; font-family:monospace; text-align:center; flex-shrink:0; }
+  .p2-item { padding:4px 4px; font-size:10px; color:#111; flex:1; line-height:1.3; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; }
 
   .p2-footer { margin-top:12px; border-top:1px solid #ddd; padding-top:10px; font-size:11px; color:#888; text-align:center; }
 
@@ -302,7 +305,7 @@
       box-sizing: border-box !important;
     }
     .page2 .page-inner {
-      padding: 10mm 14mm 10mm !important;
+      padding: 10mm 12mm 10mm !important;
     }
 
     /* URL・日時（ヘッダー・フッター）を非表示 */
@@ -325,31 +328,34 @@
     .p2-col-header-bar {
       background: #111 !important;
       color: #fff !important;
+      font-size: 9px !important;
+      padding: 5px 6px !important;
       -webkit-print-color-adjust: exact !important;
       print-color-adjust: exact !important;
     }
     .p2-cat-label {
-      background: #f4f4f4 !important;
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
+      background: #ebebeb !important;
+      color: #333 !important;
+      font-size: 8.5px !important;
+      padding: 4px 6px !important;
       white-space: nowrap !important;
       overflow: visible !important;
       text-overflow: unset !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
     }
-    /* 印刷時：機材名を省略なしで表示 */
     .p2-item {
       white-space: nowrap !important;
       overflow: visible !important;
       text-overflow: unset !important;
-      font-size: 9px !important;
-      padding: 3px 3px !important;
+      font-size: 10px !important;
+      color: #111 !important;
+      padding: 4px 4px !important;
     }
-    .p2-num { font-size: 9px !important; width: 16px !important; }
-    .p2-col { min-width: 0 !important; overflow: visible !important; }
+    .p2-num { font-size: 9px !important; width: 18px !important; color: #666 !important; }
+    .p2-col { min-width: 0 !important; overflow: visible !important; gap: 4px !important; }
     .p2-row { overflow: visible !important; }
-    .p2-columns { gap: 0 6px !important; }
-    .p2-col-header-bar { font-size: 9px !important; padding: 4px 6px !important; }
-    .p2-cat-label { font-size: 8px !important; padding: 3px 4px !important; }
+    .p2-columns { gap: 0 8px !important; }
     .p1-info-label {
       color: #aaa !important;
       display: block !important;
