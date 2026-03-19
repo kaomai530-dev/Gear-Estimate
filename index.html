@@ -401,6 +401,16 @@
     .doc-pages { padding: 40px 40px 40px; gap: 24px; max-width: 800px; margin: 0 auto; }
     .page { width: min(86vw, 680px); height: calc(min(86vw, 680px) * 1.414); }
   }
+.shoot-date-tag {
+  display:inline-flex; align-items:center; gap:6px;
+  background:var(--surface2); border:1px solid var(--border);
+  color:var(--text); padding:4px 10px; border-radius:4px;
+  font-size:13px; margin:2px 4px 2px 0;
+}
+.shoot-date-tag span {
+  cursor:pointer; color:var(--muted); font-size:14px; line-height:1;
+}
+.shoot-date-tag span:hover { color:var(--accent); }  
 </style>
 </head>
 <body>
@@ -455,7 +465,13 @@
         </div>
         <div class="field-group">
           <div class="field-label">撮影日</div>
-          <input class="field-input" id="shoot-date" type="date">
+          <div id="shoot-dates-wrap">
+            <div id="shoot-dates-list"></div>
+            <div style="display:flex;gap:8px;margin-top:6px;">
+              <input class="field-input" id="shoot-date-input" type="date" style="flex:1;">
+              <button class="btn-cat" onclick="addShootDate()">＋</button>
+            </div>
+          </div>
         </div>
         <div class="field-group" style="margin-bottom:0">
           <div class="field-label">見積番号（任意）</div>
@@ -566,7 +582,9 @@ function generateEstimate(){
   const price=parseInt(document.getElementById('price-input').value)||50000;
   const client=document.getElementById('client-name').value||'—';
   const project=document.getElementById('project-name').value||'—';
-  const date=document.getElementById('shoot-date').value;
+  const date = window._shootDates && window._shootDates.length
+  ? window._shootDates.slice().sort().map(d=>d.replace(/-/g,'.')).join(' / ')
+  : '—';
   const estNoInput=document.getElementById('estimate-no').value;
   let estNo;
   if(estNoInput){
@@ -810,7 +828,23 @@ async function printDoc(){
   }
 }
 buildGearList();
-document.getElementById('shoot-date').value=new Date().toISOString().split('T')[0];
+window._shootDates = [];
+function addShootDate(){
+  const v = document.getElementById('shoot-date-input').value;
+  if(!v || window._shootDates.includes(v)) return;
+  window._shootDates.push(v);
+  renderShootDates();
+}
+function removeShootDate(d){
+  window._shootDates = window._shootDates.filter(x => x !== d);
+  renderShootDates();
+}
+function renderShootDates(){
+  const list = document.getElementById('shoot-dates-list');
+  list.innerHTML = window._shootDates.slice().sort().map(d =>
+    `<div class="shoot-date-tag">${d.replace(/-/g,'.')}<span onclick="removeShootDate('${d}')">×</span></div>`
+  ).join('');
+}
 </script>
 </body>
 </html>
